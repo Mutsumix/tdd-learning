@@ -195,4 +195,25 @@ class CalculatorTest {
                 .hasMessage("Division by zero is not allowed");
         }
     }
+    
+    @Nested
+    @DisplayName("Power Tests")
+    class PowerTests {
+        
+        @Test
+        @DisplayName("Should calculate power correctly")
+        void testPower() {
+            assertThat(calculator.power(2, 3)).isEqualTo(8);
+            assertThat(calculator.power(5, 2)).isEqualTo(25);
+            assertThat(calculator.power(10, 0)).isEqualTo(1);
+        }
+        
+        @Test
+        @DisplayName("Should throw exception for negative exponent")
+        void testNegativeExponent() {
+            assertThatThrownBy(() -> calculator.power(2, -1))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("Negative exponents are not supported");
+        }
+    }
 }

@@ -1,0 +1,38 @@
+name: Code Quality - コード品質チェック
+
+# 品質チェック（時間がかかる）
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  # 定期実行（毎日午前2時）
+  schedule:
+    - cron: '0 2 * * *'
+
+jobs:
+  code-analysis:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Javaセットアップ
+      uses: actions/setup-java@v4
+      with:
+        java-version: '11'
+        distribution: 'temurin'
+        cache: maven
+    
+    - name: コードカバレッジ計測
+      run: mvn test jacoco:report
+    
+    - name: カバレッジレポートアップロード
+      uses: codecov/codecov-action@v4
+      with:
+        file: ./target/site/jacoco/jacoco.xml
+        flags: unittests
+        name: codecov-umbrella
+    
+    # 将来的に追加予定
+    # - name: SonarQube分析
+    #   run: mvn sonar:sonar
