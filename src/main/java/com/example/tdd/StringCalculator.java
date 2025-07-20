@@ -11,8 +11,7 @@ public class StringCalculator {
         int sum = 0;
         
         for (String num : nums) {
-            // バグ：意図的に間違った実装
-            sum += Integer.parseInt(num.trim()) + 1; // +1は間違い
+            sum += Integer.parseInt(num.trim());
         }
         
         return sum;
